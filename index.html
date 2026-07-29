@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Momentum Motorsports — the iRacing endurance team that gets fast, unseen drivers seen. Team-published content, real endurance racing, a community built on Discord.">
+<title>Momentum Motorsports — iRacing Endurance Team</title>
+
+<!-- Optional web fonts. The site renders correctly without network via system fallbacks. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   MOMENTUM MOTORSPORTS — single-file site
+   All content is edited in the CONFIG object inside the
+   <script> tag at the bottom of this file.
+   ============================================================ */
+
+:root{
+  --bg:        #08080b;
+  --bg-2:      #0d0d12;
+  --panel:     #111118;
+  --panel-2:   #16161f;
+  --line:      rgba(255,255,255,.09);
+  --line-soft: rgba(255,255,255,.05);
+  --text:      #ecedf1;
+  --muted:     #a2a3b0;
+  --accent:    #ff4d00;
+  --accent-hi: #ff6b26;
+  --accent-dim:rgba(255,77,0,.14);
+  --font-display:'Archivo Black','Arial Black','Franklin Gothic Medium',Impact,sans-serif;
+  --font-body:'Chakra Petch','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --nav-h:68px;
+  --radius:2px;
+  --cut:14px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+html{
+  scroll-behavior:smooth;
+  -webkit-text-size-adjust:100%;
+}
+html,body{overflow-x:clip}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.65;
+  /* Carbon-fiber weave, pure CSS */
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,.035) 1px, transparent 1.6px),
+    radial-gradient(circle at 8px 8px, rgba(255,255,255,.025) 1px, transparent 1.6px),
+    linear-gradient(180deg, var(--bg) 0%, #0a0a0e 100%);
+  background-size:14px 14px, 14px 14px, 100% 100%;
+  background-attachment:fixed;
+}
+
+img,svg{max-width:100%;display:block}
+a{color:var(--accent-hi)}
+ul[role="list"],ol[role="list"]{list-style:none}
+
+::selection{background:var(--accent);color:#0a0a0c}
+
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* ---------- layout ---------- */
+.wrap{
+  max-width:1160px;
+  margin-inline:auto;
+  padding-inline:clamp(1.15rem, 5vw, 2.5rem);
+}
+section{scroll-margin-top:calc(var(--nav-h) + 18px)}
+.section{padding-block:clamp(4rem, 9vw, 7rem)}
+.section-alt{background:linear-gradient(180deg, transparent, rgba(255,255,255,.018) 18%, rgba(255,255,255,.018) 82%, transparent)}
+
+/* ---------- skip link ---------- */
+.skip{
+  position:absolute;left:1rem;top:-4rem;z-index:200;
+  background:var(--accent);color:#0a0a0c;font-weight:700;
+  padding:.7rem 1.2rem;text-decoration:none;text-transform:uppercase;
+  letter-spacing:.06em;font-size:.85rem;transition:top .2s ease;
+}
+.skip:focus{top:1rem}
+
+/* ---------- header / nav ---------- */
+.site-head{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,8,11,.88);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav{
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.brand{
+  display:flex;align-items:center;gap:.65rem;
+  text-decoration:none;color:var(--text);
+  font-family:var(--font-display);
+  font-size:1.02rem;letter-spacing:.04em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.brand svg{flex:none}
+.brand .brand-accent{color:var(--accent)}
+.nav-links{
+  display:flex;align-items:center;gap:clamp(.4rem,1.6vw,1.1rem);
+  list-style:none;
+}
+.nav-links a{
+  color:var(--muted);text-decoration:none;
+  font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:.5rem .55rem;position:relative;transition:color .18s ease;
+}
+.nav-links a:hover{color:var(--text)}
+.nav-links a::after{
+  content:"";position:absolute;left:.55rem;right:.55rem;bottom:.15rem;height:2px;
+  background:var(--accent);transform:scaleX(0);transform-origin:left;
+  transition:transform .2s ease;
+}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta{
+  margin-left:.35rem;
+}
+.nav-cta a{
+  color:#0a0a0c;background:var(--accent);
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  padding:.55rem .95rem;
+}
+.nav-cta a::after{display:none}
+.nav-cta a:hover{color:#0a0a0c;background:var(--accent-hi)}
+
+.nav-toggle{
+  display:none;
+  flex-shrink:0;
+  background:none;border:1px solid var(--line);color:var(--text);
+  width:44px;height:44px;cursor:pointer;
+  align-items:center;justify-content:center;
+}
+.nav-toggle .bars{position:relative;width:20px;height:2px;background:var(--text);transition:background .15s}
+.nav-toggle .bars::before,.nav-toggle .bars::after{
+  content:"";position:absolute;left:0;width:20px;height:2px;background:var(--text);transition:transform .2s ease,top .2s ease;
+}
+.nav-toggle .bars::before{top:-6px}
+.nav-toggle .bars::after{top:6px}
+.nav-toggle[aria-expanded="true"] .bars{background:transparent}
+.nav-toggle[aria-expanded="true"] .bars::before{top:0;transform:rotate(45deg)}
+.nav-toggle[aria-expanded="true"] .bars::after{top:0;transform:rotate(-45deg)}
+
+/* The full 9-item desktop row needs ~1010px even with the short brand, so
+   the hamburger menu covers everything up to 1280px. */
+@media (max-width:1280px){
+  .nav-toggle{display:inline-flex}
+  .nav-links{
+    position:absolute;top:var(--nav-h);left:0;right:0;
+    flex-direction:column;align-items:stretch;gap:0;
+    background:rgba(10,10,14,.98);
+    border-bottom:1px solid var(--line);
+    padding:.5rem 1.15rem 1.15rem;
+    display:none;
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{display:block;padding:.85rem .25rem;font-size:.9rem;border-bottom:1px solid var(--line-soft)}
+  .nav-links a::after{display:none}
+  .nav-cta{margin:.85rem 0 0}
+  .nav-cta a{display:inline-block;border-bottom:none;text-align:center}
+}
+@media (min-width:1281px){
+  /* Desktop nav row width budget: the full brand (~310px) plus all links
+     and the Discord CTA overflows the 1080px wrap, so the header brand
+     shortens to "Momentum" while the full row is visible. */
+  .brand .brand-accent{display:none}
+}
+@media (max-width:430px){
+  .brand{font-size:.85rem;letter-spacing:0}
+}
+@media (max-width:380px){
+  .brand .brand-accent{display:none}
+}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;
+  min-height:calc(92vh - var(--nav-h));
+  display:flex;flex-direction:column;justify-content:center;
+  overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+.hero-inner{position:relative;z-index:3;padding-block:clamp(4.5rem,10vw,7rem) clamp(5.5rem,10vw,8rem)}
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:.7rem;
+  color:var(--accent);font-weight:700;font-size:.82rem;
+  letter-spacing:.32em;text-transform:uppercase;
+  margin-bottom:1.4rem;
+}
+.hero-kicker::before{
+  content:"";width:34px;height:2px;background:var(--accent);flex:none;
+}
+.hero h1{
+  font-family:var(--font-display);
+  font-size:clamp(2.5rem, 8.4vw, 5.9rem);
+  line-height:.96;letter-spacing:.005em;
+  text-transform:uppercase;
+  max-width:14ch;
+}
+.hero h1 .accent{color:var(--accent)}
+.hero-tag{
+  margin-top:1.4rem;
+  max-width:52ch;
+  color:var(--muted);
+  font-size:clamp(1rem, 2.4vw, 1.2rem);
+}
+.hero-ctas{
+  margin-top:2.4rem;
+  display:flex;flex-wrap:wrap;gap:.9rem;
+}
+/* ghost heading behind hero */
+.hero-ghost{
+  position:absolute;z-index:1;right:-2vw;bottom:8%;
+  font-family:var(--font-display);
+  font-size:clamp(5rem, 18vw, 15rem);
+  line-height:1;text-transform:uppercase;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.06);
+  pointer-events:none;user-select:none;white-space:nowrap;
+}
+/* angular accent slash */
+.hero::before{
+  content:"";position:absolute;z-index:0;inset:0;
+  background:
+    linear-gradient(115deg, transparent 55%, var(--accent-dim) 55.3%, transparent 72%),
+    linear-gradient(115deg, transparent 70%, rgba(255,255,255,.03) 70.3%, transparent 88%);
+  pointer-events:none;
+}
+/* speed lines */
+.speed{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.speed span{
+  position:absolute;height:2px;
+  background:linear-gradient(90deg, transparent, var(--accent));
+  opacity:.5;
+  animation:speed-slide 5.5s linear infinite;
+}
+.speed span:nth-child(1){top:18%;width:180px;animation-delay:0s}
+.speed span:nth-child(2){top:31%;width:110px;animation-delay:1.6s;opacity:.3}
+.speed span:nth-child(3){top:64%;width:230px;animation-delay:.8s;opacity:.35}
+.speed span:nth-child(4){top:78%;width:140px;animation-delay:2.7s;opacity:.25}
+@keyframes speed-slide{
+  0%{transform:translateX(-30vw)}
+  100%{transform:translateX(130vw)}
+}
+
+/* event marquee strip */
+.strip{
+  position:absolute;left:0;right:0;bottom:0;z-index:3;
+  border-top:1px solid var(--line);
+  background:rgba(8,8,11,.72);
+  overflow:hidden;
+  padding-block:.7rem;
+}
+.strip-track{
+  display:flex;width:max-content;
+  animation:strip-scroll 36s linear infinite;
+}
+.strip-track span{
+  white-space:nowrap;
+  color:var(--muted);
+  font-weight:600;font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;
+  padding-right:2rem;
+}
+.strip-track b{color:var(--accent);font-weight:600}
+@keyframes strip-scroll{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+
+/* checkered edge accent */
+.checker{
+  height:10px;
+  background:repeating-conic-gradient(rgba(255,255,255,.85) 0% 25%, rgba(0,0,0,.9) 0% 50%);
+  background-size:10px 10px;
+  opacity:.16;
+}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:.55rem;
+  font-family:var(--font-body);font-weight:700;
+  font-size:.86rem;letter-spacing:.1em;text-transform:uppercase;
+  text-decoration:none;cursor:pointer;border:none;
+  padding:1rem 1.7rem;
+  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));
+  transition:transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.btn-primary{background:var(--accent);color:#0a0a0c}
+.btn-primary:hover{background:var(--accent-hi);transform:translateY(-2px)}
+.btn-ghost{
+  background:rgba(255,255,255,.04);color:var(--text);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);
+}
+.btn-ghost:hover{box-shadow:inset 0 0 0 1px var(--accent);color:var(--accent-hi);transform:translateY(-2px)}
+.btn:focus-visible{outline:none;box-shadow:inset 0 0 0 3px #fff}
+
+/* ---------- section headers ---------- */
+.sec-head{
+  display:flex;align-items:baseline;gap:1rem;
+  margin-bottom:clamp(2rem, 5vw, 3.2rem);
+}
+.sec-num{
+  font-weight:700;color:var(--accent);
+  font-size:.85rem;letter-spacing:.2em;
+}
+.sec-head h2{
+  font-family:var(--font-display);
+  font-size:clamp(1.7rem, 4.6vw, 2.7rem);
+  text-transform:uppercase;letter-spacing:.01em;line-height:1.05;
+}
+.sec-line{
+  flex:1;height:1px;background:var(--line);
+  position:relative;top:-6px;min-width:30px;
+}
+.sec-sub{
+  max-width:62ch;color:var(--muted);
+  margin-top:-1.4rem;margin-bottom:2.4rem;
+}
+
+/* ---------- about ---------- */
+.about-grid{
+  display:grid;gap:clamp(1.5rem,4vw,3.5rem);
+  grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);
+  align-items:start;
+}
+.about-copy p{color:var(--muted);margin-bottom:1.1rem;max-width:60ch}
+.about-copy p:first-of-type{color:var(--text);font-size:1.08rem}
+.values{
+  display:grid;gap:1px;background:var(--line);
+  border:1px solid var(--line);
+}
+.values li{
+  list-style:none;background:var(--panel);
+  padding:1.15rem 1.3rem;
+  display:flex;gap:.9rem;align-items:baseline;
+}
+.values b{
+  font-family:var(--font-display);color:var(--accent);
+  font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;flex:none;width:7.5rem;
+}
+.values span{color:var(--muted);font-size:.92rem}
+@media (max-width:820px){
+  .about-grid{grid-template-columns:1fr}
+  .values b{width:auto;min-width:6.5rem}
+}
+
+/* ---------- cards (shared) ---------- */
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  position:relative;
+  transition:transform .2s ease, border-color .2s ease;
+}
+.card::before{ /* corner cut accent */
+  content:"";position:absolute;top:0;right:0;
+  border-style:solid;border-width:0 16px 16px 0;
+  border-color:transparent var(--bg) transparent transparent;
+}
+.card::after{
+  content:"";position:absolute;top:5px;right:5px;width:8px;height:2px;
+  background:var(--accent);transform:rotate(-45deg);
+  opacity:0;transition:opacity .2s ease;
+}
+.card:hover{transform:translateY(-4px);border-color:rgba(255,77,0,.45)}
+.card:hover::after{opacity:1}
+
+/* ---------- roster ---------- */
+.roster-grid{
+  display:grid;gap:1.1rem;
+  grid-template-columns:repeat(auto-fill, minmax(245px, 1fr));
+}
+.driver-card{padding:1.4rem 1.4rem 1.25rem}
+.driver-top{display:flex;gap:1rem;align-items:center;margin-bottom:1.1rem}
+.avatar{
+  flex:none;width:58px;height:58px;
+  display:flex;align-items:center;justify-content:center;
+  background:
+    linear-gradient(145deg, var(--panel-2), #1c1c26);
+  box-shadow:inset 0 0 0 1px var(--line);
+  clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+  font-family:var(--font-display);
+  color:var(--accent);font-size:1.05rem;letter-spacing:.02em;
+}
+.driver-card h3{
+  font-family:var(--font-display);
+  font-size:1.02rem;text-transform:uppercase;letter-spacing:.02em;line-height:1.2;
+}
+.driver-role{color:var(--muted);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-top:.25rem}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;list-style:none;margin-bottom:1.1rem}
+.chips li{
+  font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);
+  border:1px solid var(--line);
+  padding:.28rem .6rem;
+}
+.driver-meta{
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--line-soft);padding-top:.85rem;
+}
+.meta-label{color:var(--muted);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase}
+.meta-val{font-family:var(--font-display);color:var(--text);font-size:.95rem}
+.roster-note{margin-top:1.6rem;color:var(--muted);font-size:.9rem;max-width:70ch}
+
+/* ---------- schedule ---------- */
+.sched-grid{
+  display:grid;gap:1.1rem;
+  grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+}
+.event-card{padding:1.4rem}
+.event-head{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem;
+  margin-bottom:1.05rem;
+}
+.event-head h3{
+  font-family:var(--font-display);
+  font-size:1.08rem;text-transform:uppercase;line-height:1.2;
+}
+.badge{
+  flex:none;
+  font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  padding:.32rem .65rem;
+  border:1px solid var(--line);color:var(--muted);
+  white-space:nowrap;
+}
+.badge-roster-forming{border-color:var(--accent);color:var(--accent-hi)}
+.badge-upcoming{border-color:rgba(255,255,255,.22);color:var(--text)}
+.event-meta{display:grid;gap:.55rem}
+.event-meta > div{display:flex;gap:1rem;align-items:baseline}
+.event-meta dt{
+  flex:none;width:4.6rem;
+  color:var(--muted);font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+}
+.event-meta dd{color:var(--text);font-size:.92rem}
+
+/* ---------- results ---------- */
+.results-empty{
+  border:1px dashed rgba(255,255,255,.18);
+  padding:clamp(2.2rem,6vw,3.6rem);
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.1rem;
+}
+.flag{
+  width:64px;height:44px;
+  background:repeating-conic-gradient(rgba(255,255,255,.9) 0% 25%, rgba(10,10,12,.95) 0% 50%);
+  background-size:16px 16px;
+  border:1px solid var(--line);
+  transform:skewX(-8deg);
+  opacity:.85;
+}
+.results-empty h3{
+  font-family:var(--font-display);font-size:1.25rem;text-transform:uppercase;
+}
+.results-empty p{color:var(--muted);max-width:52ch}
+.results-table{border:1px solid var(--line)}
+.results-row{
+  display:grid;
+  grid-template-columns:minmax(0,2.2fr) minmax(0,.9fr) minmax(0,1fr) minmax(0,2fr);
+  gap:1rem;align-items:center;
+  padding:.95rem 1.25rem;
+  border-top:1px solid var(--line-soft);
+  font-size:.92rem;
+}
+.results-row:first-child{border-top:none}
+.results-row.head{
+  background:var(--panel);
+  color:var(--muted);font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+}
+.results-row .finish{font-family:var(--font-display);color:var(--accent)}
+@media (max-width:680px){
+  .results-row{grid-template-columns:minmax(0,1.4fr) minmax(0,.6fr)}
+  .results-row .r-class,.results-row .r-note{display:none}
+}
+
+/* ---------- content hub ---------- */
+.content-grid{
+  display:grid;gap:1.1rem;
+  grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+}
+.content-card{
+  padding:1.6rem 1.5rem;
+  display:flex;flex-direction:column;gap:.85rem;
+  text-decoration:none;color:var(--text);
+}
+.content-card .icon{
+  width:44px;height:44px;color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);
+  background:var(--panel-2);
+}
+.content-card .icon svg{width:22px;height:22px}
+.content-card h3{
+  font-family:var(--font-display);font-size:1.05rem;text-transform:uppercase;
+}
+.content-card p{color:var(--muted);font-size:.92rem;flex:1}
+.content-card .go{
+  color:var(--accent-hi);font-weight:700;font-size:.8rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:.4rem;
+}
+.content-card .go::after{content:"→";transition:transform .18s ease}
+.content-card:hover .go::after{transform:translateX(4px)}
+
+/* ---------- media zone ---------- */
+.media-grid{
+  display:grid;gap:clamp(1.5rem,4vw,3rem);
+  grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
+  align-items:start;
+}
+.media-steps{list-style:none;counter-reset:mstep;display:grid;gap:1rem}
+.media-steps li{
+  counter-increment:mstep;
+  background:var(--panel);border:1px solid var(--line);
+  padding:1.2rem 1.3rem;
+  display:flex;gap:1.05rem;align-items:baseline;
+}
+.media-steps li::before{
+  content:"0" counter(mstep);
+  font-family:var(--font-display);color:var(--accent);font-size:1.1rem;flex:none;
+}
+.media-steps li.empty-note{display:block;background:transparent}
+.media-steps li.empty-note::before{content:none}
+.media-steps h3{
+  font-family:var(--font-display);font-size:.92rem;text-transform:uppercase;letter-spacing:.03em;
+  margin-bottom:.3rem;
+}
+.media-steps p{color:var(--muted);font-size:.92rem}
+.broadcast-card{
+  border:1px solid var(--line);
+  background:linear-gradient(150deg, var(--panel-2), rgba(255,77,0,.06));
+  padding:clamp(1.5rem,4vw,2.2rem);
+  display:flex;flex-direction:column;align-items:flex-start;gap:.9rem;
+}
+.broadcast-card h3{font-family:var(--font-display);font-size:1.2rem;text-transform:uppercase;line-height:1.2}
+.broadcast-card p{color:var(--muted);font-size:.93rem}
+.broadcast-card .go{
+  color:var(--accent-hi);font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;
+}
+.broadcast-card .go::after{content:"→";transition:transform .18s ease}
+.broadcast-card .go:hover::after{transform:translateX(4px)}
+.badge-coming-soon{border-color:var(--accent);color:var(--accent-hi)}
+@media (max-width:820px){
+  .media-grid{grid-template-columns:1fr}
+}
+
+/* ---------- partners ---------- */
+.partners-block-title{
+  font-family:var(--font-display);font-size:1.05rem;text-transform:uppercase;
+  margin-bottom:1.15rem;
+  display:flex;align-items:center;gap:.7rem;
+}
+.partners-block-title::before{content:"";width:18px;height:3px;background:var(--accent);flex:none}
+.partners-row{
+  display:grid;gap:1.1rem;
+  grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+  margin-bottom:2.4rem;
+}
+.partner-card{
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:.55rem;
+  padding:1.7rem 1.5rem 1.55rem;
+  text-decoration:none;color:var(--text);
+  min-height:9.5rem;
+}
+.partner-tag{
+  font-size:.66rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--accent);
+}
+.partner-mark{
+  font-family:var(--font-display);
+  font-size:clamp(1.1rem, 2.4vw, 1.4rem);
+  line-height:1.18;text-transform:uppercase;letter-spacing:.01em;
+  overflow-wrap:anywhere;
+  position:relative;padding-bottom:.6rem;
+}
+.partner-mark::after{
+  content:"";position:absolute;left:0;bottom:0;
+  width:34px;height:3px;background:var(--accent);
+  transform:skewX(-18deg);
+}
+.partner-go{
+  color:var(--accent-hi);font-weight:700;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:.4rem;margin-top:.2rem;
+}
+.partner-go::after{content:"→";transition:transform .18s ease}
+a.partner-card:hover .partner-go::after{transform:translateX(4px)}
+.founding{
+  border:1px dashed rgba(255,77,0,.5);
+  background:linear-gradient(135deg, rgba(255,77,0,.06), transparent 55%);
+  padding:clamp(1.6rem,4.5vw,2.6rem);
+  display:grid;gap:1.6rem;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;
+  margin-bottom:2.4rem;
+}
+.logo-slot{
+  width:120px;height:84px;flex:none;
+  border:1px dashed rgba(255,255,255,.25);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  color:var(--muted);
+  font-size:.66rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  padding:.5rem;
+  background:rgba(255,255,255,.02);
+}
+.founding h3{
+  font-family:var(--font-display);font-size:1.3rem;text-transform:uppercase;margin-bottom:.45rem;
+}
+.founding h3 span{color:var(--accent)}
+.founding p{color:var(--muted);font-size:.95rem;max-width:56ch}
+@media (max-width:820px){
+  .founding{grid-template-columns:1fr;justify-items:start}
+}
+.tiers-grid{
+  display:grid;gap:1.1rem;
+  grid-template-columns:repeat(auto-fill, minmax(255px, 1fr));
+}
+.tier-card{padding:1.5rem 1.4rem}
+.tier-card h3{
+  font-family:var(--font-display);font-size:1rem;text-transform:uppercase;
+  color:var(--accent);
+  padding-bottom:.85rem;margin-bottom:.95rem;
+  border-bottom:1px solid var(--line-soft);
+}
+.tier-card ul{list-style:none;display:grid;gap:.55rem}
+.tier-card li{
+  color:var(--muted);font-size:.9rem;
+  display:flex;gap:.6rem;align-items:baseline;
+}
+.tier-card li::before{
+  content:"";flex:none;width:8px;height:8px;
+  background:var(--accent);
+  clip-path:polygon(0 0,100% 0,100% 100%);
+  position:relative;top:1px;
+}
+.partners-note{margin-top:1.6rem;color:var(--muted);font-size:.9rem;max-width:72ch}
+
+/* ---------- join ---------- */
+.founding-note{
+  border:1px dashed rgba(255,77,0,.5);
+  background:linear-gradient(135deg, rgba(255,77,0,.06), transparent 60%);
+  padding:1.4rem 1.6rem;
+  margin-bottom:clamp(2rem, 5vw, 3rem);
+}
+.founding-note .fn-tag{
+  display:inline-block;
+  color:var(--accent);
+  font-weight:700;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;
+  margin-bottom:.45rem;
+}
+.founding-note p{color:var(--muted);font-size:.95rem;max-width:75ch}
+.join-grid{
+  display:grid;gap:clamp(1.5rem,4vw,3rem);
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  align-items:start;
+}
+.join-block h3{
+  font-family:var(--font-display);font-size:1.05rem;text-transform:uppercase;
+  margin-bottom:1rem;
+  display:flex;align-items:center;gap:.7rem;
+}
+.join-block h3::before{content:"";width:18px;height:3px;background:var(--accent);flex:none}
+.join-list{list-style:none;display:grid;gap:.7rem}
+.join-list li{
+  color:var(--muted);font-size:.95rem;
+  padding-left:1.3rem;position:relative;
+}
+.join-list li::before{
+  content:"";position:absolute;left:0;top:.52em;
+  width:9px;height:9px;background:var(--accent);
+  clip-path:polygon(0 0,100% 50%,0 100%);
+}
+.join-steps{list-style:none;counter-reset:step;display:grid;gap:1rem}
+.join-steps li{
+  counter-increment:step;
+  display:flex;gap:1rem;align-items:baseline;
+  color:var(--muted);font-size:.95rem;
+}
+.join-steps li::before{
+  content:"0" counter(step);
+  font-family:var(--font-display);
+  color:var(--accent);font-size:1.05rem;flex:none;
+}
+.join-cta{margin-top:2.2rem;display:flex;flex-wrap:wrap;gap:.9rem;align-items:center}
+.join-cta .hint{color:var(--muted);font-size:.85rem}
+@media (max-width:760px){
+  .join-grid{grid-template-columns:1fr}
+}
+
+/* ---------- footer ---------- */
+.site-foot{
+  border-top:1px solid var(--line);
+  background:var(--bg-2);
+  padding-block:2.6rem 2rem;
+}
+.foot-grid{
+  display:flex;flex-wrap:wrap;gap:1.6rem;
+  justify-content:space-between;align-items:flex-start;
+}
+.foot-brand{max-width:34ch}
+.foot-brand .brand{margin-bottom:.6rem}
+.foot-brand p{color:var(--muted);font-size:.88rem}
+.foot-social{display:flex;gap:.7rem;list-style:none;flex-wrap:wrap}
+.foot-social a{
+  width:42px;height:42px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);color:var(--muted);
+  transition:color .18s ease,border-color .18s ease,transform .18s ease;
+}
+.foot-social a:hover{color:var(--accent-hi);border-color:var(--accent);transform:translateY(-2px)}
+.foot-social svg{width:18px;height:18px}
+.foot-contact{font-size:.9rem;color:var(--muted)}
+.foot-contact a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--accent)}
+.foot-contact a:hover{color:var(--accent-hi)}
+.foot-legal{
+  margin-top:2.2rem;padding-top:1.4rem;
+  border-top:1px solid var(--line-soft);
+  display:flex;flex-wrap:wrap;gap:.8rem;justify-content:space-between;
+  color:var(--muted);font-size:.78rem;letter-spacing:.04em;
+}
+
+/* ---------- empty-state helper ---------- */
+.empty-note{
+  border:1px dashed rgba(255,255,255,.18);
+  padding:1.6rem;color:var(--muted);text-align:center;font-size:.95rem;
+}
+
+/* ---------- scroll reveal (JS-gated: styles only apply under .js-anim) ---------- */
+.js-anim .reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+.js-anim .reveal.in{opacity:1;transform:none}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  .js-anim .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="#top" aria-label="Momentum Motorsports — back to top">
+        <svg width="30" height="22" viewBox="0 0 30 22" aria-hidden="true" focusable="false">
+          <polygon points="0,22 8,0 14,0 6,22" fill="#ff4d00"/>
+          <polygon points="9,22 17,0 23,0 15,22" fill="#ff4d00" opacity=".65"/>
+          <polygon points="18,22 26,0 30,0 22,22" fill="#ff4d00" opacity=".35"/>
+        </svg>
+        <span>Momentum<span class="brand-accent">&nbsp;Motorsports</span></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+        <span class="bars" aria-hidden="true"></span>
+      </button>
+      <ul class="nav-links" id="nav-menu">
+        <li><a href="#about">About</a></li>
+        <li><a href="#drivers">Drivers</a></li>
+        <li><a href="#schedule">Schedule</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#content">Content</a></li>
+        <li><a href="#media">Media</a></li>
+        <li><a href="#partners">Partners</a></li>
+        <li><a href="#join">Join</a></li>
+        <li class="nav-cta"><a class="js-discord" href="#join">Discord</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="top" aria-label="Introduction">
+    <div class="speed" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    <div class="hero-ghost" aria-hidden="true">Endurance</div>
+    <div class="wrap hero-inner">
+      <p class="hero-kicker">iRacing Endurance Team</p>
+      <h1><span data-config="teamNameLine1">Momentum</span> <span class="accent" data-config="teamNameLine2">Motorsports</span></h1>
+      <p class="hero-tag" data-config="tagline">Built on Discord. We take fast drivers nobody's watching and put their racing in front of eyes.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#join">Join the Team</a>
+        <a class="btn btn-ghost" href="#partners">Partner With Us</a>
+      </div>
+    </div>
+    <div class="strip" aria-hidden="true">
+      <div class="strip-track">
+        <span>Daytona 24 <b>//</b> Bathurst 12 <b>//</b> Sebring 12 <b>//</b> Nürburgring 24 <b>//</b> Spa 24 <b>//</b> Petit Le Mans <b>//</b>&nbsp;</span>
+        <span>Daytona 24 <b>//</b> Bathurst 12 <b>//</b> Sebring 12 <b>//</b> Nürburgring 24 <b>//</b> Spa 24 <b>//</b> Petit Le Mans <b>//</b>&nbsp;</span>
+      </div>
+    </div>
+  </section>
+  <div class="checker" aria-hidden="true"></div>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="section" id="about" aria-labelledby="about-title">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num" aria-hidden="true">01 /</span>
+        <h2 id="about-title">The Team</h2>
+        <span class="sec-line" aria-hidden="true"></span>
+      </header>
+      <div class="about-grid">
+        <div class="about-copy" id="about-copy">
+          <!-- Paragraphs rendered from CONFIG.about -->
+        </div>
+        <ul class="values" role="list" aria-label="Team values">
+          <li><b>Consistency</b><span>Long-run pace and clean stints beat one hot lap. We drive for the 24th hour, not the first.</span></li>
+          <li><b>Clean racing</b><span>Respect on track, every session. Incident points are lap time we gave away.</span></li>
+          <li><b>Team first</b><span>Strategy calls, spotting, and stint prep are shared work. Nobody races alone here.</span></li>
+          <li><b>Community</b><span>We started as friends on Discord. That stays true no matter how far this goes.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DRIVERS ================= -->
+  <section class="section section-alt" id="drivers" aria-labelledby="drivers-title">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num" aria-hidden="true">02 /</span>
+        <h2 id="drivers-title">Driver Roster</h2>
+        <span class="sec-line" aria-hidden="true"></span>
+      </header>
+      <div class="roster-grid" id="roster-grid">
+        <!-- Driver cards rendered from CONFIG.roster -->
+      </div>
+      <p class="roster-note">Roster is being finalized for our first full endurance season. Think you belong on this grid? <a href="#join">See what we look for.</a></p>
+    </div>
+  </section>
+
+  <!-- ================= SCHEDULE ================= -->
+  <section class="section" id="schedule" aria-labelledby="schedule-title">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num" aria-hidden="true">03 /</span>
+        <h2 id="schedule-title">Season Schedule</h2>
+        <span class="sec-line" aria-hidden="true"></span>
+      </header>
+      <p class="sec-sub">Our target calendar: the major iRacing endurance specials. Dates confirm when iRacing publishes each season's schedule.</p>
+      <div class="sched-grid" id="sched-grid">
+        <!-- Event cards rendered from CONFIG.schedule -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RESULTS ================= -->
+  <section class="section section-alt" id="results" aria-labelledby="results-title">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num" aria-hidden="true">04 /</span>
+        <h2 id="results-title">Results</h2>
+        <span class="sec-line" aria-hidden="true"></span>
+      </header>
+      <div id="results-area">
+        <!-- Results table or empty state rendered from CONFIG.results -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTENT HUB ================= -->
+  <section class="section" id="content" aria-labelledby="content-title">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num" aria-hidden="true">05 /</span>
+        <h2 id="content-title">Content Hub</h2>
+        <span class="sec-line" aria-hidden="true"></span>
+      </header>
+      <p class="sec-sub">Race nights, onboards, and the road to our first big finishes — follow along wherever you watch.</p>
+      <div class="content-grid" id="content-grid">
+        <!-- Platform cards rendered from CONFIG.socials -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MEDIA ZONE ================= -->
+  <section class="section section-alt" id="media" aria-labelledby="media-title">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num" aria-hidden="true">06 /</span>
+        <h2 id="media-title">The Media Zone</h2>
+        <span class="sec-line" aria-hidden="true"></span>
+      </header>
+      <p class="sec-sub">Your speed deserves an audience. Every driver films, the team publishes — members drop clips and full-stint POVs, the media crew cuts them, and they'll go out on the team channels as they launch — with the driver credited on every post.</p>
+      <div class="media-grid">
+        <div>
+          <ol class="media-steps" id="media-steps" role="list" aria-label="How the clip pipeline works">
+            <!-- Steps rendered from CONFIG.mediaZone.steps -->
+          </ol>
+          <div class="join-cta" id="media-cta">
+            <!-- Submit CTA rendered from CONFIG.mediaZone.submitUrl -->
+          </div>
+        </div>
+        <aside class="broadcast-card reveal" id="media-broadcast" aria-labelledby="broadcast-title">
+          <!-- Broadcast teaser rendered from CONFIG.mediaZone.broadcasts -->
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PARTNERS ================= -->
+  <section class="section" id="partners" aria-labelledby="partners-title">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num" aria-hidden="true">07 /</span>
+        <h2 id="partners-title">Partners</h2>
+        <span class="sec-line" aria-hidden="true"></span>
+      </header>
+      <div id="partners-founding">
+        <!-- Founding Partners row rendered from CONFIG.partners -->
+      </div>
+      <div class="founding">
+        <div class="logo-slot" aria-hidden="true">Your logo<br>here</div>
+        <div>
+          <h3>Title Partner — <span>Position Open</span></h3>
+          <p>Our founding partner slots are filled — the name on the car isn't. The title partner gets primary livery placement on every endurance entry, presence across our streams and content, and first billing on everything we publish.</p>
+        </div>
+        <a class="btn btn-primary js-mailto" href="#join">Start the Conversation</a>
+      </div>
+      <div class="tiers-grid" id="tiers-grid">
+        <!-- Tier cards rendered from CONFIG.sponsorTiers -->
+      </div>
+      <p class="partners-note">Every partnership is built individually — livery placement, stream integration, content features, and community activations are all on the table. Email us with what your brand needs and we'll put a package together.</p>
+    </div>
+  </section>
+
+  <!-- ================= JOIN ================= -->
+  <section class="section section-alt" id="join" aria-labelledby="join-title">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num" aria-hidden="true">08 /</span>
+        <h2 id="join-title">Join the Team</h2>
+        <span class="sec-line" aria-hidden="true"></span>
+      </header>
+      <div id="founding-note">
+        <!-- Founding Member callout rendered from CONFIG.foundingNote; hidden when empty -->
+      </div>
+      <div class="join-grid">
+        <div class="join-block">
+          <h3>What we look for</h3>
+          <ul class="join-list" role="list">
+            <li>Consistency over raw pace — you can string clean laps together for a full stint.</li>
+            <li>A safety rating you're proud of. Clean racecraft matters more than your iRating.</li>
+            <li>Reliable comms: you show up for practice, you're on Discord, you call what you see.</li>
+            <li>Endurance mindset — fuel saving, tire management, and patience in traffic.</li>
+            <li>Good teammate energy. We spend long nights in voice chat together.</li>
+          </ul>
+        </div>
+        <div class="join-block">
+          <h3>How to apply</h3>
+          <ol class="join-steps">
+            <li>Join our Discord and say hi in the intros channel.</li>
+            <li>Tell us your iRating, safety rating, usual series, and the cars you love.</li>
+            <li>Run a practice session with us — one relaxed evening stint, no pressure.</li>
+            <li>If it clicks on both sides, you're on the grid for the next event.</li>
+          </ol>
+          <div class="join-cta">
+            <a class="btn btn-primary js-discord" href="#join">Join Our Discord</a>
+            <span class="hint">No tryout gauntlet. Just drive with us.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="checker" aria-hidden="true"></div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top">
+          <svg width="26" height="19" viewBox="0 0 30 22" aria-hidden="true" focusable="false">
+            <polygon points="0,22 8,0 14,0 6,22" fill="#ff4d00"/>
+            <polygon points="9,22 17,0 23,0 15,22" fill="#ff4d00" opacity=".65"/>
+            <polygon points="18,22 26,0 30,0 22,22" fill="#ff4d00" opacity=".35"/>
+          </svg>
+          <span data-config="teamName">Momentum Motorsports</span>
+        </a>
+        <p data-config="taglineFoot">Built on Discord. We take fast drivers nobody's watching and put their racing in front of eyes.</p>
+      </div>
+      <nav aria-label="Social media">
+        <ul class="foot-social" id="foot-social" role="list">
+          <!-- Social icons rendered from CONFIG.socials -->
+        </ul>
+      </nav>
+      <div class="foot-contact">
+        <p>Partnerships &amp; press:</p>
+        <p><a class="js-mailto" href="#join" id="foot-email">reach us on Discord</a></p>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <span id="copyright">© Momentum Motorsports</span>
+      <span>Sim racing team competing on the iRacing platform. Not affiliated with iRacing.com Motorsport Simulations.</span>
+    </div>
+  </div>
+</footer>
+
+<noscript>
+  <div class="wrap" style="padding:1.5rem 1.15rem;color:#a2a3b0;">
+    JavaScript is disabled — the roster, schedule, results, media zone, and partner info won't display. All content is also available by contacting the team.
+  </div>
+</noscript>
+
+<script>
+/* =====================================================================
+   MOMENTUM MOTORSPORTS — SITE CONFIG
+   This is the ONLY thing you need to edit. Every list below renders
+   automatically into the page. Keep the quotes, commas, and brackets.
+   ===================================================================== */
+var CONFIG = {
+  // Team identity ------------------------------------------------------
+  teamName: "Momentum Motorsports",
+  tagline: "Built on Discord. We take fast drivers nobody's watching and put their racing in front of eyes.",
+
+  // Shown in the About section. Each string is one paragraph.
+  about: [
+    "Every big sim-racing org runs the same play: recruit the drivers who are already proven, already followed, already seen. Momentum Motorsports runs the opposite one. We look for fast drivers nobody has heard of — the ones stringing clean stints together with no audience watching — and we put their racing in front of eyes.",
+    "How? We publish. Every driver on this team films, and the team will turn that footage into content with the driver's name on every post — the machine is built and our channels launch with our first season. Endurance racing is the engine — the Daytona 24, Sebring, Spa, Bathurst, the Nürburgring — because one long race gives a whole grid of drivers something worth watching.",
+    "We're at the start of that journey, and we're honest about it. No inflated claims, no invented numbers, no fake trophies on the shelf yet — just a team that takes the craft seriously and does the getting-seen part for real. If you're quick and invisible, this garage door is open."
+  ],
+
+  // Join section — Founding Member callout. Communicates the free-at-launch
+  // model honestly from day one. Leave "" to hide the callout entirely.
+  foundingNote: "Everything here is free right now — joining, racing, the Media Zone, all of it. As the team grows we plan to introduce premium offerings, and we're telling you that on day one so nobody gets surprised later. Join before that switch flips and you lock in Founding Member status: whatever founding-tier benefits we define stay free for you, permanently. The exact perks are still being defined — but being early will count.",
+
+  // Links & contact ----------------------------------------------------
+  // Leave as "" until you have a real invite/email — the page shows safe
+  // fallbacks instead of dead links: Discord buttons point to the Join
+  // section, and while contactEmail is empty every contact CTA (title
+  // partner button, footer link) routes to the Discord path instead of
+  // a mailto.
+  discordInvite: "",   // e.g. "https://discord.gg/abc123"
+  contactEmail:  "",   // e.g. "team@momentum-motorsports.gg"
+
+  // Leave any social as "" to hide its card/icon.
+  socials: {
+    twitch:    "",   // e.g. "https://twitch.tv/yourchannel"
+    youtube: "https://www.youtube.com/@USO432_SMM_PMF",   // e.g. "https://youtube.com/@yourchannel"
+    facebook:  "",   // e.g. "https://facebook.com/yourpage"
+    tiktok:    "",   // e.g. "https://tiktok.com/@yourhandle"
+    instagram: "",   // e.g. "https://instagram.com/yourhandle"
+    x:         ""    // e.g. "https://x.com/yourhandle"
+  },
+
+  // Founding partners --------------------------------------------------
+  // Rendered as the Founding Partners card row in the Partners section.
+  // url: leave "" until the site is confirmed — the card renders unlinked.
+  partners: [
+    { name: "Sim Momentum Motorsports", url: "" },  // url [CONFIRM]
+    { name: "Print My Vision 432", url: "https://printmyvision432.com" },
+    { name: "PresoldApp.com", url: "https://presoldapp.com" }
+  ],
+
+  // The Media Zone -----------------------------------------------------
+  // Every driver films, the team publishes.
+  // submitUrl: the clip submission form (under ~1 GB per file; bigger
+  // files go through the Drive intake linked in Discord #clip-drop).
+  // Set to "" to fall back to the join-Discord CTA.
+  mediaZone: {
+    submitUrl: "https://form.jotform.com/262082065519053",
+    steps: [
+      {
+        title: "Submit",
+        text: "Drop your clips and full-stint POV footage in the team clip-drop channel. Raw files are fine — no editing needed on your end."
+      },
+      {
+        title: "Review & Cut",
+        text: "The media crew screens every drop, pulls the moments that hold up, and cuts them for each platform."
+      },
+      {
+        title: "Published & Credited",
+        text: "Your footage goes out on the team channels as each one launches — always with your name on the post."
+      }
+    ],
+    broadcasts: {
+      title: "Live Race Broadcasts",
+      text: "Full endurance race coverage with live timing and production overlays is in the works. When we go live, it happens on Twitch."
+    }
+  },
+
+  // Driver roster ------------------------------------------------------
+  // initials: 1-3 characters shown in the avatar badge.
+  roster: [
+    // Drivers get added here as they join - the page shows the recruiting
+    // note below while this is empty. Format per driver:
+    // { name: "...", role: "...", specialties: ["..."], iRating: "...", initials: ".." },
+  ],
+
+  // Season schedule ----------------------------------------------------
+  // status examples: "Roster Forming", "Upcoming", "Confirmed", "Complete"
+  schedule: [
+    {
+      event: "Daytona 24",
+      series: "iRacing Special Event",
+      date: "TBD · January",
+      cars: "GT3 / GTP",
+      status: "Roster Forming"
+    },
+    {
+      event: "Bathurst 12 Hour",
+      series: "iRacing Special Event",
+      date: "TBD · February",
+      cars: "GT3",
+      status: "Upcoming"
+    },
+    {
+      event: "Sebring 12 Hour",
+      series: "iRacing Special Event",
+      date: "TBD · March",
+      cars: "GT3 / GTP",
+      status: "Upcoming"
+    },
+    {
+      event: "Nürburgring 24",
+      series: "iRacing Special Event",
+      date: "TBD · June",
+      cars: "GT3 / GT4",
+      status: "Upcoming"
+    },
+    {
+      event: "Spa 24",
+      series: "iRacing Special Event",
+      date: "TBD · July",
+      cars: "GT3",
+      status: "Upcoming"
+    },
+    {
+      event: "Petit Le Mans",
+      series: "iRacing Special Event",
+      date: "TBD · October",
+      cars: "GT3 / GTP",
+      status: "Upcoming"
+    }
+  ],
+
+  // Race results -------------------------------------------------------
+  // Leave empty until you have real results. Example entry:
+  // { event: "Daytona 24", finish: "P12", class: "GT3", note: "First team 24-hour, zero incidents in the night stints" }
+  results: [],
+
+  // Sponsorship tiers --------------------------------------------------
+  sponsorTiers: [
+    {
+      tier: "Title Partner",
+      benefits: [
+        "Primary livery placement on every endurance entry",
+        "Brand in team name for select events",
+        "Logo on all stream overlays and thumbnails",
+        "Dedicated content feature each special event",
+        "Input on livery design and colorway"
+      ]
+    },
+    {
+      tier: "Primary Partner",
+      benefits: [
+        "Large logo in a prominent livery zone",
+        "Logo on stream overlays",
+        "Monthly content integration",
+        "Social posts around each event entered"
+      ]
+    },
+    {
+      tier: "Supporting Partner",
+      benefits: [
+        "Standard logo in a defined livery zone",
+        "Logo rotation on stream overlays",
+        "Logo on the team website and shoutouts in community posts",
+        "A team that actually says thank you"
+      ]
+    },
+    {
+      tier: "Product / In-Kind Partner",
+      benefits: [
+        "Small logo or decal-of-the-month on the livery",
+        "One honest product-feature video per cycle",
+        "Stream overlay rotation slot",
+        "Tracked discount code with a post-cycle report"
+      ]
+    }
+  ]
+};
+
+/* =====================================================================
+   RENDERING — you should not need to edit anything below this line.
+   ===================================================================== */
+(function () {
+  "use strict";
+
+  // -- helpers ---------------------------------------------------------
+  function esc(v) {
+    return String(v === null || v === undefined ? "" : v).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function arr(v) { return Array.isArray(v) ? v : []; }
+  function byId(id) { return document.getElementById(id); }
+  function slug(v) {
+    return String(v || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  }
+
+  // -- identity text ---------------------------------------------------
+  var teamName = CONFIG.teamName || "Momentum Motorsports";
+  var tagline = CONFIG.tagline || "";
+  document.title = teamName + " — iRacing Endurance Team";
+
+  // Split the team name across the two hero lines (first word / rest).
+  var parts = teamName.split(" ");
+  var line1 = parts.shift() || teamName;
+  var line2 = parts.join(" ");
+  document.querySelectorAll('[data-config="teamNameLine1"]').forEach(function (el) { el.textContent = line1; });
+  document.querySelectorAll('[data-config="teamNameLine2"]').forEach(function (el) { el.textContent = line2; });
+  document.querySelectorAll('[data-config="teamName"]').forEach(function (el) { el.textContent = teamName; });
+  document.querySelectorAll('[data-config="tagline"], [data-config="taglineFoot"]').forEach(function (el) {
+    el.textContent = tagline;
+  });
+
+  // -- about -----------------------------------------------------------
+  var aboutEl = byId("about-copy");
+  if (aboutEl) {
+    var aboutParas = arr(CONFIG.about);
+    aboutEl.innerHTML = aboutParas.length
+      ? aboutParas.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("")
+      : '<p class="empty-note">Team bio coming soon.</p>';
+  }
+
+  // -- founding member note (Join section) -----------------------------
+  var foundingNoteEl = byId("founding-note");
+  if (foundingNoteEl) {
+    var foundingNote = CONFIG.foundingNote || "";
+    foundingNoteEl.innerHTML = foundingNote
+      ? '<aside class="founding-note reveal" aria-label="Founding Member note">' +
+          '<span class="fn-tag">Founding Members</span>' +
+          "<p>" + esc(foundingNote) + "</p>" +
+        "</aside>"
+      : "";
+  }
+
+  // -- links (Discord + email) ----------------------------------------
+  var discord = CONFIG.discordInvite || "#join";
+  document.querySelectorAll(".js-discord").forEach(function (a) {
+    a.setAttribute("href", discord);
+    if (/^https?:/i.test(discord)) {
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener noreferrer");
+    }
+  });
+  var email = CONFIG.contactEmail || "";
+  document.querySelectorAll(".js-mailto").forEach(function (a) {
+    if (email) {
+      a.setAttribute("href", "mailto:" + email);
+    } else {
+      // No contact email yet — route contact CTAs down the Discord path
+      // (the real invite if set, otherwise the Join section).
+      a.setAttribute("href", discord);
+      if (/^https?:/i.test(discord)) {
+        a.setAttribute("target", "_blank");
+        a.setAttribute("rel", "noopener noreferrer");
+      }
+    }
+  });
+  var footEmail = byId("foot-email");
+  if (footEmail && email) { footEmail.textContent = email; }
+
+  // -- roster ----------------------------------------------------------
+  var rosterEl = byId("roster-grid");
+  if (rosterEl) {
+    var roster = arr(CONFIG.roster);
+    rosterEl.innerHTML = roster.length
+      ? roster.map(function (d) {
+          var chips = arr(d.specialties).map(function (s) {
+            return "<li>" + esc(s) + "</li>";
+          }).join("");
+          return (
+            '<article class="card driver-card reveal">' +
+              '<div class="driver-top">' +
+                '<div class="avatar" aria-hidden="true"><span>' + esc(d.initials) + "</span></div>" +
+                "<div><h3>" + esc(d.name) + '</h3><p class="driver-role">' + esc(d.role) + "</p></div>" +
+              "</div>" +
+              (chips ? '<ul class="chips" role="list" aria-label="Specialties">' + chips + "</ul>" : "") +
+              '<div class="driver-meta"><span class="meta-label">iRating</span><span class="meta-val">' + esc(d.iRating) + "</span></div>" +
+            "</article>"
+          );
+        }).join("")
+      : '<p class="empty-note">Roster announcement coming soon.</p>';
+  }
+
+  // -- schedule --------------------------------------------------------
+  var schedEl = byId("sched-grid");
+  if (schedEl) {
+    var schedule = arr(CONFIG.schedule);
+    schedEl.innerHTML = schedule.length
+      ? schedule.map(function (ev) {
+          var statusClass = slug(ev.status) || "upcoming";
+          return (
+            '<article class="card event-card reveal">' +
+              '<div class="event-head"><h3>' + esc(ev.event) + '</h3>' +
+              '<span class="badge badge-' + esc(statusClass) + '">' + esc(ev.status) + "</span></div>" +
+              '<dl class="event-meta">' +
+                "<div><dt>Series</dt><dd>" + esc(ev.series) + "</dd></div>" +
+                "<div><dt>Date</dt><dd>" + esc(ev.date) + "</dd></div>" +
+                "<div><dt>Cars</dt><dd>" + esc(ev.cars) + "</dd></div>" +
+              "</dl>" +
+            "</article>"
+          );
+        }).join("")
+      : '<p class="empty-note">Schedule drops when the next iRacing season is announced.</p>';
+  }
+
+  // -- results ---------------------------------------------------------
+  var resultsEl = byId("results-area");
+  if (resultsEl) {
+    var results = arr(CONFIG.results);
+    if (results.length) {
+      resultsEl.innerHTML =
+        '<div class="results-table" role="table" aria-label="Race results">' +
+          '<div class="results-row head" role="row">' +
+            '<span role="columnheader">Event</span>' +
+            '<span role="columnheader">Finish</span>' +
+            '<span role="columnheader" class="r-class">Class</span>' +
+            '<span role="columnheader" class="r-note">Notes</span>' +
+          "</div>" +
+          results.map(function (r) {
+            return (
+              '<div class="results-row" role="row">' +
+                '<span role="cell">' + esc(r.event) + "</span>" +
+                '<span role="cell" class="finish">' + esc(r.finish) + "</span>" +
+                '<span role="cell" class="r-class">' + esc(r["class"]) + "</span>" +
+                '<span role="cell" class="r-note">' + esc(r.note) + "</span>" +
+              "</div>"
+            );
+          }).join("") +
+        "</div>";
+    } else {
+      resultsEl.innerHTML =
+        '<div class="results-empty reveal">' +
+          '<div class="flag" aria-hidden="true"></div>' +
+          "<h3>Results coming soon</h3>" +
+          "<p>Our first full endurance season is ahead of us. Every finish — good, bad, and heartbreaking — gets posted here, unfiltered. Follow the content hub to watch it happen live.</p>" +
+        "</div>";
+    }
+  }
+
+  // -- content hub -----------------------------------------------------
+  var ICONS = {
+    twitch: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M2.149 0 .537 4.119v16.836h5.731V24h3.224l3.045-3.045h4.657l6.269-6.269V0H2.149zm19.164 13.612-3.582 3.582h-5.731l-3.045 3.045v-3.045H4.298V2.149h17.015v11.463zm-3.582-7.343v6.262h-2.149V6.269h2.149zm-5.731 0v6.262h-2.149V6.269H12z"/></svg>',
+    youtube: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.81 3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg>',
+    facebook: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M24 12.073C24 5.446 18.627.073 12 .073S0 5.446 0 12.073c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.008 1.792-4.669 4.533-4.669 1.312 0 2.686.234 2.686.234v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
+    tiktok: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>',
+    instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>',
+    x: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M18.9 2H22l-6.77 7.74L23.2 22h-6.23l-4.88-6.38L6.5 22H3.37l7.24-8.28L1.2 2h6.39l4.41 5.83L18.9 2zm-1.09 18.1h1.72L7.5 3.8H5.66l12.15 16.3z"/></svg>'
+  };
+
+  var socials = CONFIG.socials || {};
+  var contentEl = byId("content-grid");
+  if (contentEl) {
+    var platforms = [
+      { key: "twitch", name: "Twitch", blurb: "Live race-night broadcasts and full endurance stints — strategy calls, driver swaps, and 3 AM chaos included.", go: "Watch on Twitch" },
+      { key: "youtube", name: "YouTube", blurb: "Race recaps, onboard highlights, and setup talk. The long-form home for everything we learn along the way.", go: "Watch on YouTube" },
+      { key: "facebook", name: "Facebook", blurb: "Race-night updates, event announcements, and the community side of the team — driver clips included.", go: "Follow on Facebook" },
+      { key: "tiktok", name: "TikTok", blurb: "The best 60 seconds of every race weekend — overtakes, saves, and the moments that make endurance racing worth it.", go: "Follow on TikTok" }
+    ];
+    var cards = platforms.filter(function (p) { return socials[p.key]; }).map(function (p) {
+      return (
+        '<a class="card content-card reveal" href="' + esc(socials[p.key]) + '" target="_blank" rel="noopener noreferrer">' +
+          '<span class="icon" aria-hidden="true">' + ICONS[p.key] + "</span>" +
+          "<h3>" + esc(p.name) + "</h3>" +
+          "<p>" + esc(p.blurb) + "</p>" +
+          '<span class="go">' + esc(p.go) + "</span>" +
+        "</a>"
+      );
+    });
+    contentEl.innerHTML = cards.length
+      ? cards.join("")
+      : '<p class="empty-note">Channels launching soon — join the Discord for the first drop.</p>';
+  }
+
+  // -- media zone ------------------------------------------------------
+  var mz = CONFIG.mediaZone || {};
+
+  var stepsEl = byId("media-steps");
+  if (stepsEl) {
+    var steps = arr(mz.steps);
+    stepsEl.innerHTML = steps.length
+      ? steps.map(function (s) {
+          return '<li class="reveal"><div><h3>' + esc(s.title) + "</h3><p>" + esc(s.text) + "</p></div></li>";
+        }).join("")
+      : '<li class="empty-note">Clip pipeline details coming soon — join the Discord to be first in.</li>';
+  }
+
+  var mediaCtaEl = byId("media-cta");
+  if (mediaCtaEl) {
+    var submitUrl = mz.submitUrl || "";
+    if (submitUrl) {
+      mediaCtaEl.innerHTML =
+        '<a class="btn btn-primary" href="' + esc(submitUrl) + '" target="_blank" rel="noopener noreferrer">Submit Your Clip</a>' +
+        '<span class="hint">Clips and full-stint POVs welcome.</span>';
+    } else {
+      var discordExternal = /^https?:/i.test(discord);
+      mediaCtaEl.innerHTML =
+        '<a class="btn btn-primary" href="' + esc(discord) + '"' +
+        (discordExternal ? ' target="_blank" rel="noopener noreferrer"' : "") +
+        ">Drop Clips in Discord</a>" +
+        '<span class="hint">Submissions run through the clip-drop channel on our Discord until the upload form goes live.</span>';
+    }
+  }
+
+  var broadcastEl = byId("media-broadcast");
+  if (broadcastEl) {
+    var bc = mz.broadcasts || {};
+    var twitchUrl = socials.twitch || "";
+    broadcastEl.innerHTML =
+      '<span class="badge badge-coming-soon">Coming Soon</span>' +
+      '<h3 id="broadcast-title">' + esc(bc.title || "Live Race Broadcasts") + "</h3>" +
+      (bc.text ? "<p>" + esc(bc.text) + "</p>" : "") +
+      (twitchUrl
+        ? '<a class="go" href="' + esc(twitchUrl) + '" target="_blank" rel="noopener noreferrer">Watch on Twitch</a>'
+        : "");
+  }
+
+  // -- founding partners -----------------------------------------------
+  var partnersEl = byId("partners-founding");
+  if (partnersEl) {
+    var partners = arr(CONFIG.partners);
+    partnersEl.innerHTML = partners.length
+      ? '<h3 class="partners-block-title">Founding Partners</h3>' +
+        '<div class="partners-row">' +
+        partners.map(function (p) {
+          var pUrl = p.url || "";
+          var inner =
+            '<span class="partner-tag">Founding Partner</span>' +
+            '<span class="partner-mark">' + esc(p.name) + "</span>" +
+            (pUrl ? '<span class="partner-go">Visit site</span>' : "");
+          return pUrl
+            ? '<a class="card partner-card reveal" href="' + esc(pUrl) + '" target="_blank" rel="noopener noreferrer">' + inner + "</a>"
+            : '<article class="card partner-card reveal">' + inner + "</article>";
+        }).join("") +
+        "</div>"
+      : "";
+  }
+
+  // -- sponsor tiers ---------------------------------------------------
+  var tiersEl = byId("tiers-grid");
+  if (tiersEl) {
+    var tiers = arr(CONFIG.sponsorTiers);
+    tiersEl.innerHTML = tiers.length
+      ? tiers.map(function (t) {
+          var items = arr(t.benefits).map(function (b) { return "<li>" + esc(b) + "</li>"; }).join("");
+          return (
+            '<article class="card tier-card reveal">' +
+              "<h3>" + esc(t.tier) + "</h3>" +
+              '<ul role="list">' + items + "</ul>" +
+            "</article>"
+          );
+        }).join("")
+      : "";
+  }
+
+  // -- footer social icons --------------------------------------------
+  var footSocialEl = byId("foot-social");
+  if (footSocialEl) {
+    var order = ["twitch", "youtube", "facebook", "tiktok", "instagram", "x"];
+    var labels = { twitch: "Twitch", youtube: "YouTube", facebook: "Facebook", tiktok: "TikTok", instagram: "Instagram", x: "X (Twitter)" };
+    footSocialEl.innerHTML = order.filter(function (k) { return socials[k]; }).map(function (k) {
+      return (
+        "<li><a href=\"" + esc(socials[k]) + "\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"" +
+        esc(teamName + " on " + labels[k]) + "\">" + ICONS[k] + "</a></li>"
+      );
+    }).join("");
+  }
+
+  // -- copyright -------------------------------------------------------
+  var copyEl = byId("copyright");
+  if (copyEl) {
+    copyEl.textContent = "© " + new Date().getFullYear() + " " + teamName + ". All rights reserved.";
+  }
+
+  // -- mobile nav toggle ----------------------------------------------
+  var toggle = document.querySelector(".nav-toggle");
+  var menu = byId("nav-menu");
+  if (toggle && menu) {
+    toggle.addEventListener("click", function () {
+      var open = menu.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    menu.addEventListener("click", function (e) {
+      var target = e.target;
+      if (target && target.tagName === "A") {
+        menu.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  // -- scroll reveal (progressive enhancement) ------------------------
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    document.documentElement.classList.add("js-anim");
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>
