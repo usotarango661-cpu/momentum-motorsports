@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureDictionary>
+    <Item>
+      <Name>teef_diff_000_a_uni</Name>
+      <Unk32 value="0" />
+      <Usage>DEFAULT</Usage>
+      <UsageFlags>UNK24, UNK25</UsageFlags>
+      <ExtraFlags value="0" />
+      <Width value="1024" />
+      <Height value="1024" />
+      <MipLevels value="11" />
+      <Format>D3DFMT_DXT5</Format>
+      <FileName>teef_diff_000_a_uni.dds</FileName>
+    </Item>
+</TextureDictionary>
