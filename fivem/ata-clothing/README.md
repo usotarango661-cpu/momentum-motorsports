@@ -7,7 +7,7 @@ reference art in `source/reference/`. Three pieces:
 |---|---|---|---|
 | Jacket / hoodie | component 11 `jbib` | `textures/png/jacket_1024.png` | `textures/dds/jbib_diff_000_a_uni.dds` (DXT1) |
 | Pants / jeans | component 4 `lowr` | `textures/png/pants_1024.png` | `textures/dds/lowr_diff_000_a_uni.dds` (DXT1) |
-| Chain | component 7 `teef` | `textures/png/chain_1024.png` (RGBA) | `textures/dds/teef_diff_000_a_uni.dds` (DXT5, alpha) |
+| Chain | component 7 `teef` | **3D model in `chain_3d/`** (see below); flat fallback `textures/png/chain_1024.png` | `chain_3d/fbx/ata_necklace.fbx`, `chain_3d/glb/ata_necklace.glb` |
 
 Preview of all three: `preview/contact_sheet.png`. Every texture is exactly 1024x1024.
 
@@ -34,6 +34,31 @@ Preview of all three: `preview/contact_sheet.png`. Every texture is exactly 1024
 - Jewelled red/gold ATA pendant with bail, centred in the upper part.
 - Seamlessly tileable cuban-link chain strip (red gems + white pave) along the bottom.
 - Small gold clasp between them.
+
+## Chain: 3D model (`chain_3d/`)
+
+A pendant with custom lettering cannot be a flat texture on a vanilla chain, so the chain
+is delivered as a real 3D model with the pavé baked into PBR textures. Renders are in
+`chain_3d/renders/` (`contact_sheet.png`, front / 3-4 / side / back, plus a 12-frame turntable).
+
+| File | What it is |
+|---|---|
+| `chain_3d/fbx/ata_necklace.fbx` / `.blend` | Complete necklace: chain + pendant, textures embedded. Import straight into Blender (Sollumz), 3ds Max or ZModeler. |
+| `chain_3d/fbx/ata_pendant.fbx`, `ata_chain.fbx` | The two parts separately (each also as `.blend`). |
+| `chain_3d/glb/*.glb` | Same models as glTF binary (textures embedded), for any viewer or engine. |
+| `chain_3d/obj/*.obj` + `.mtl` + PNGs | Universal fallback: OBJ with material files and the texture maps next to them. |
+| `chain_3d/textures/` | The PBR maps: `pendant_front_tex/nrm`, `pendant_bail_tex/nrm`, `chain_link_tex/nrm/mr`. |
+
+Specs: metres, Y up, wearer faces +Z. Necklace 0.18 m wide x 0.28 m tall including the
+pendant; pendant 0.10 m wide. 70,385 triangles total (pendant 17,249; chain 53,136, 55 links
+plus a box clasp). Materials: gold (metallic), red pavé / white diamond baked into base colour
++ normal maps. For GTA the mesh goes into slot 7 (`teef`) as a drawable
+(`mp_m_freemode_01^teef_<id>_u.ydd`) with the textures packed into its `.ytd`; the person
+converting it will rig it to the neck bone (SKEL_Neck_1 / SKEL_Spine3) in Sollumz.
+
+Regenerate: `python3 chain_3d/source/build_pendant.py`, `build_chain.py`, `assemble.py`
+(trimesh + shapely + scikit-image); preview renders use `chain_3d/source/render.mjs`
+(three.js in headless Chromium); FBX/.blend via `tools/glb_to_fbx_blend.py` (pip install bpy).
 
 ## Important: textures need a mesh
 

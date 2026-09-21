@@ -1,0 +1,61 @@
+# https://github.com/mikedh/trimesh
+
+newmtl pave_front
+Ka 0.40000000 0.40000000 0.40000000
+Kd 1.00000000 1.00000000 1.00000000
+Ks 0.40000000 0.40000000 0.40000000
+Ns 1.00000000
+map_Kd pave_front.png
+Pr 0.1500
+Pm 0.3000
+norm pave_front_normal.png
+map_Bump -bm 1.0 pave_front_normal.png
+
+newmtl gold
+Ka 0.40000000 0.40000000 0.40000000
+Kd 1.00000000 0.78039216 0.32156863
+Ks 0.40000000 0.40000000 0.40000000
+Ns 1.00000000
+Pr 0.2000
+Pm 1.0000
+
+newmtl gold_back
+Ka 0.40000000 0.40000000 0.40000000
+Kd 0.61960784 0.45882353 0.18039216
+Ks 0.40000000 0.40000000 0.40000000
+Ns 1.00000000
+Pr 0.3200
+Pm 1.0000
+
+newmtl pave_bail
+Ka 0.40000000 0.40000000 0.40000000
+Kd 1.00000000 1.00000000 1.00000000
+Ks 0.40000000 0.40000000 0.40000000
+Ns 1.00000000
+map_Kd pave_bail.png
+Pr 0.1500
+Pm 0.3000
+norm pave_bail_normal.png
+map_Bump -bm 1.0 pave_bail_normal.png
+
+newmtl diamond
+Ka 0.40000000 0.40000000 0.40000000
+Kd 1.00000000 1.00000000 1.00000000
+Ks 0.40000000 0.40000000 0.40000000
+Ns 1.00000000
+Pr 0.0500
+Pm 0.1000
+
+newmtl ata_link_pave
+Ka 0.40000000 0.40000000 0.40000000
+Kd 1.00000000 1.00000000 1.00000000
+Ks 0.40000000 0.40000000 0.40000000
+Ns 1.00000000
+map_Kd ata_link_pave.png
+Pr 0.2500
+Pm 0.8500
+norm ata_link_pave_normal.png
+map_Bump -bm 1.0 ata_link_pave_normal.png
+map_Pr ata_link_pave_roughness.png
+map_Pm ata_link_pave_metallic.png
+
