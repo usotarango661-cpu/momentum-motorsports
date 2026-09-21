@@ -6,8 +6,8 @@ Kd 1.00000000 1.00000000 1.00000000
 Ks 0.40000000 0.40000000 0.40000000
 Ns 1.00000000
 map_Kd ata_link_pave.png
-Pr 0.2500
-Pm 0.8500
+Pr 1.0000
+Pm 1.0000
 norm ata_link_pave_normal.png
 map_Bump -bm 1.0 ata_link_pave_normal.png
 map_Pr ata_link_pave_roughness.png

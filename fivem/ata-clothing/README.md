@@ -49,10 +49,12 @@ is delivered as a real 3D model with the pavé baked into PBR textures. Renders 
 | `chain_3d/obj/*.obj` + `.mtl` + PNGs | Universal fallback: OBJ with material files and the texture maps next to them. |
 | `chain_3d/textures/` | The PBR maps: `pendant_front_tex/nrm`, `pendant_bail_tex/nrm`, `chain_link_tex/nrm/mr`. |
 
-Specs: metres, Y up, wearer faces +Z. Necklace 0.18 m wide x 0.28 m tall including the
-pendant; pendant 0.10 m wide. 70,385 triangles total (pendant 17,249; chain 53,136, 55 links
-plus a box clasp). Materials: gold (metallic), red pavé / white diamond baked into base colour
-+ normal maps. For GTA the mesh goes into slot 7 (`teef`) as a drawable
+Specs: metres, Y up, wearer faces +Z. Necklace 0.18 m wide x 0.27 m tall including the
+pendant; pendant 0.10 m wide. 102,404 triangles total (pendant 36,548; chain 65,856, chunky
+flat pavé cuban links plus a box clasp). Every red stone and border diamond on the pendant is
+real faceted geometry (round brilliants); the bail is a trapezoid pavé plate with a gold loop.
+Materials: gold (metallic), ruby and diamond gem materials, pavé baked into the link textures
+(base colour + normal + metallic-roughness). Built to match `source/reference/ata_chain_target.jpg`. For GTA the mesh goes into slot 7 (`teef`) as a drawable
 (`mp_m_freemode_01^teef_<id>_u.ydd`) with the textures packed into its `.ytd`; the person
 converting it will rig it to the neck bone (SKEL_Neck_1 / SKEL_Spine3) in Sollumz.
 
