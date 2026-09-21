@@ -76,6 +76,16 @@ def strip_band(strip, x0, y0, width, height, dst):
     out[y0:y1, x0:x1] = over(out[y0:y1, x0:x1], sub[..., :3], sub[..., 3])
     return out
 
+
+def darken_disc(dst, cx, cy, r, amount=0.65, feather=2.0):
+    """Darken a soft-edged disc of the ground so a medallion's line-art reads on black velvet."""
+    out = dst.copy()
+    x0 = int(cx - r - 4); y0 = int(cy - r - 4); x1 = int(cx + r + 5); y1 = int(cy + r + 5)
+    Y, X = np.mgrid[y0:y1, x0:x1]
+    m = np.clip((r - np.sqrt((X - cx) ** 2 + (Y - cy) ** 2)) / feather + 0.5, 0, 1)
+    out[y0:y1, x0:x1] *= (1 - amount * m[..., None])
+    return out
+
 def make_zipper(w=18, h=350, seed=7):
     """Gold zipper / placket strip RGBA: two rows of interlocking teeth, dark centre seam,
     a slider near the top with a hanging pull tab."""
@@ -143,7 +153,7 @@ canvas = paste_rgba(canvas, mirror(fil_single), 452, 305, scale=s_fs)
 # crown + ATA logo, letters ~300 px wide, centred (256,215), and the gold zipper placket
 # down the centre (x=256, y 120..470).  The reference jacket shows the zipper running over
 # the logo, so it is drawn on top by default; set ZIPPER_OVER_LOGO = False to keep the logo intact.
-ZIPPER_OVER_LOGO = True
+ZIPPER_OVER_LOGO = False
 zipper = make_zipper(18, 350)
 if not ZIPPER_OVER_LOGO:
     canvas = paste_rgba(canvas, zipper, 256, 295)
@@ -158,6 +168,7 @@ s_bs = 0.28
 canvas = paste_rgba(canvas, fil_single, 578, 318, scale=s_bs)
 canvas = paste_rgba(canvas, mirror(fil_single), 958, 318, scale=s_bs)
 canvas = paste_rgba(canvas, logo, 768, 146, scale=265 / LOGO_W)
+canvas = darken_disc(canvas, 768, 369, 78, amount=0.65)
 canvas = paste_rgba(canvas, medusa, 768, 369, scale=160 / MED_D)
 canvas = strip_band(greek, 512, 454, 512, 58, canvas)
 
